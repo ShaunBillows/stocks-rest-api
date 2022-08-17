@@ -17,7 +17,7 @@ userRouter.get("/login", tokenCheck, login)
 userRouter.post("/login", comparePass, login)
 
 // stock routes
-userRouter.post("/user/add", tokenCheck, addStock)
+userRouter.patch("/user/stocks", tokenCheck, addStock)
 
 module.exports = userRouter;
 
