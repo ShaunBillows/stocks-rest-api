@@ -154,31 +154,18 @@ exports.addStock = async (req, res) => {
       z.quantity = z.quantity + newStock.quantity
       const k = y.map( el => el.stock === newStock.stock ?[ JSON.stringify(z)] : [JSON.stringify(el)] )
       console.log(k)
-      // convert to string 
-      // update db
-
-
       result = await User.updateOne({ username: req.user.username }, { stocks: k })
 
-      // console.log("Attempting to update stock quantity.");
-      // result = await User.updateOne({ username: req.user.username }, { $pull: { stocks : [JSON.stringify(req.body.addStock)] } })
-      // console.log(req.body.addStock)
-      // req.body.addStock.quantity = newQuantity
-      // result = await User.updateOne({ username: req.user.username }, { $push: { stocks : [JSON.stringify(req.body.addStock)] } })
+      // result = await User.updateOne({ username: req.user.username }, { stocks: k })
 
-      // result = await User.updateOne({ username: req.user.username },
-      // {$set: { 'stocks.$': 100 }})
+      const user = req.user.stocks
+      const userStocks = user.map( el => JSON.parse(el))
+      const userStock = userStocks.find( el => el.stock === newStock.stock )
+      userStock.quantity = userStock.quantity + newStock.quantity
+      const updatedStocks = userStocks.map( el => el.stock === newStock.stock ? [ JSON.stringify(userStock)] : [JSON.stringify(el)] )
 
-      // result = User.updateOne(
-      //   { username: req.user.username,
-      //     stocks: { $elemMatch: { stock: newStock.stock } }
-      //   },
-      //   {
-      //     $set: {
-      //       "stocks.&.quantity": newQuantity,
-      //     }
-      //   }
-      // )
+      result = await User.updateOne({ username: req.user.username }, { stocks: updatedStocks })
+
 
      } else { 
       // 2. otherwise add the stock to stocks
