@@ -2,17 +2,9 @@
 
 example query
 
-{
-  "username": "insert_user",
-  "password": "insert_password",
-  "email": "insert_email",
-  "addStock": {
-    "stock": "AAPL",
-    "quantity": 2
-  }
-}
+{ "username": "fred", "pass": "fred", "email": "fred", "addStock": { "symbol": "AAPL", "quantity": -5, "name": "Apple" } }
 
 dotenv environment variables
 
-MONGO_URI=mongodb_uri
+MONGO_URI=mongodb_uri,
 SECRET=jwt_key

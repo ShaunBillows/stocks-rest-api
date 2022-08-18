@@ -117,14 +117,14 @@ exports.addStock = async (req, res) => {
   console.log("Request recieved by addStock.");
   try {
     let result
-    if (req.user.stocks.some( x => JSON.parse(x).stock === req.body.addStock.stock )) { 
+    if (req.user.stocks.some( x => JSON.parse(x).symbol === req.body.addStock.symbol )) { 
       // 1. if the new stock is in stocks, increment/decrement the quantity 
       console.log("Updating stocks.");
       const newStock = req.body.addStock
       const userStocks = req.user.stocks.map( el => JSON.parse(el))
-      const updateStock = userStocks.find( el => el.stock === newStock.stock )
-      updateStock.quantity = updateStock.quantity + newStock.quantity // update the stock
-      const updatedStocks = userStocks.map( el => el.stock === newStock.stock ? [ JSON.stringify(updateStock)] : [JSON.stringify(el)] )
+      const updateStock = userStocks.find( el => el.symbol === newStock.symbol )
+      updateStock.quantity = updateStock.quantity + newStock.quantity // update the quantity
+      const updatedStocks = userStocks.map( el => el.symbol === newStock.symbol ? [ JSON.stringify(updateStock)] : [JSON.stringify(el)] )
       result = await User.updateOne({ username: req.user.username }, { stocks: updatedStocks })
       console.log(result)
       console.log(userStocks)
